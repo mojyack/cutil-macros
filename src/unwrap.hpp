@@ -1,12 +1,15 @@
 #pragma once
 #include "assert.hpp"
 
-#define unwrap_re(var, res)        \
-    const auto var##_r = res;      \
-    if(!var##_r) {                 \
-        return var##_r.as_error(); \
-    }                              \
+#define unwrap_rv(var, opt, const, ...) \
+    const auto var##_r = opt;           \
+    if(!var##_r) {                      \
+        return var##_r.as_error();      \
+    }                                   \
     const auto& var = var##_r.as_value();
+
+#define unwrap_re(var, opt, ...)     unwrap_rv(var, opt, const, __VA_ARGS__)
+#define unwrap_re_mut(var, opt, ...) unwrap_rv(var, opt, , __VA_ARGS__)
 
 #define unwrap_ov(var, opt, const, ret, ...) \
     const auto var##_o = opt;                \
