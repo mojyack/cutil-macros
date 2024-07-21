@@ -1,10 +1,10 @@
 #pragma once
 // #include cutil/assert.hpp
 
-#define PANIC(...)            line_panic({__FILE__, __FUNCTION__, __LINE__}, "fatal error" __VA_OPT__(": ", ) __VA_ARGS__);
-#define PRINT(...)            line_print({__FILE__, __FUNCTION__, __LINE__} __VA_OPT__(, ) __VA_ARGS__);
-#define WARN(...)             line_warn({__FILE__, __FUNCTION__, __LINE__} __VA_OPT__(, ) __VA_ARGS__);
-#define DYN_ASSERT(cond, ...) line_assert((cond), {__FILE__, __FUNCTION__, __LINE__}, "fatal error" __VA_OPT__(": ", ) __VA_ARGS__);
+#define PANIC(...)        line_panic({__FILE__, __FUNCTION__, __LINE__}, "fatal error" __VA_OPT__(": ", ) __VA_ARGS__);
+#define PRINT(...)        line_print({__FILE__, __FUNCTION__, __LINE__} __VA_OPT__(, ) __VA_ARGS__);
+#define WARN(...)         line_warn({__FILE__, __FUNCTION__, __LINE__} __VA_OPT__(, ) __VA_ARGS__);
+#define ASSERT(cond, ...) line_assert((cond), {__FILE__, __FUNCTION__, __LINE__}, "fatal error" __VA_OPT__(": ", ) __VA_ARGS__);
 
 #define assert_v(cond, ret, ...)                                 \
     if(!(cond)) {                                                \
