@@ -2,7 +2,7 @@
 #ifdef CUTIL_ASSERT_HPP
 #include CUTIL_ASSERT_HPP
 #else
-#include "../util/assert.hpp"
+#include "../../cutil/src/assert.hpp"
 #endif
 
 #define PANIC(...)        line_panic({__FILE__, __FUNCTION__, __LINE__}, "fatal error" __VA_OPT__(": ", ) __VA_ARGS__);
