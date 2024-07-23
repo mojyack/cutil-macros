@@ -1,9 +1,4 @@
 #pragma once
-#ifdef CUTIL_ASSERT_HPP
-#include CUTIL_ASSERT_HPP
-#else
-#include "../../cutil/src/assert.hpp"
-#endif
 
 #define PANIC(...)        line_panic({__FILE__, __FUNCTION__, __LINE__}, "fatal error" __VA_OPT__(": ", ) __VA_ARGS__);
 #define PRINT(...)        line_print({__FILE__, __FUNCTION__, __LINE__} __VA_OPT__(, ) __VA_ARGS__);
