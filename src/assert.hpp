@@ -40,7 +40,7 @@ auto return_error() -> auto {
         return return_error<is_void, is_bool, is_int, is_opt, is_ptr>();          \
     }
 
-#define assert(cond, ...)                                        \
+#define ensure(cond, ...)                                        \
     if(!(cond)) {                                                \
         bail("assertion failed" __VA_OPT__(": ", ) __VA_ARGS__); \
     }
@@ -52,7 +52,7 @@ auto return_error() -> auto {
         return error_value;     \
     }
 
-#define assert_v(cond, ...)                                        \
+#define ensure_v(cond, ...)                                        \
     if(!(cond)) {                                                  \
         bail_v("assertion failed" __VA_OPT__(": ", ) __VA_ARGS__); \
     }

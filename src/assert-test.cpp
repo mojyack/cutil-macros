@@ -2,53 +2,53 @@
 
 auto fail_n() -> void {
     unwrap(a, (int*)nullptr);
-    assert(false, "ok");
+    ensure(false, "ok");
 }
 
 auto fail_o() -> std::optional<int> {
     unwrap(a, (int*)nullptr);
-    assert(false, "ok");
+    ensure(false, "ok");
 }
 
 auto fail_b() -> bool {
     unwrap(a, (int*)nullptr);
-    assert(false, "ok");
+    ensure(false, "ok");
 }
 
 auto fail_i() -> int {
     unwrap(a, (int*)nullptr);
-    assert(false, "ok");
+    ensure(false, "ok");
 }
 
 auto fail_p() -> int* {
     unwrap(a, (int*)nullptr);
-    assert(false, "ok");
+    ensure(false, "ok");
 }
 
 struct S {
     auto fail_n() -> void {
         unwrap(a, (int*)nullptr);
-        assert(false, "ok");
+        ensure(false, "ok");
     }
 
     auto fail_o() -> std::optional<int> {
         unwrap(a, (int*)nullptr);
-        assert(false, "ok");
+        ensure(false, "ok");
     }
 
     auto fail_b() -> bool {
         unwrap(a, (int*)nullptr);
-        assert(false, "ok");
+        ensure(false, "ok");
     }
 
     auto fail_i() -> int {
         unwrap(a, (int*)nullptr);
-        assert(false, "ok");
+        ensure(false, "ok");
     }
 
     auto fail_p() -> int* {
         unwrap(a, (int*)nullptr);
-        assert(false, "ok");
+        ensure(false, "ok");
     }
 };
 
