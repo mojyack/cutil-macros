@@ -1,5 +1,5 @@
 #pragma once
-#include "assert.hpp"
+#include "util/assert.hpp"
 
 #define unwrap_rv(var, opt, const, ...) \
     const auto var##_r = opt;           \
@@ -14,7 +14,7 @@
 #define unwrap_ov(var, opt, const, ret, ...) \
     const auto var##_o = opt;                \
     if(!var##_o.has_value()) {               \
-        WARN(__VA_ARGS__);                   \
+        line_warn(__VA_ARGS__);              \
         return ret;                          \
     }                                        \
     const auto& var = *var##_o;
@@ -31,7 +31,7 @@
 #define unwrap_pv(var, opt, const, ret, ...) \
     const auto var##_p = opt;                \
     if(var##_p == nullptr) {                 \
-        WARN(__VA_ARGS__);                   \
+        line_warn(__VA_ARGS__);              \
         return ret;                          \
     }                                        \
     const auto& var = *var##_p;
