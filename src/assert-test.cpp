@@ -26,7 +26,7 @@ auto fail_p() -> int* {
 }
 
 struct S {
-    auto fail_n() -> void {
+    static auto fail_n() -> void {
         unwrap(a, (int*)nullptr);
         ensure(false, "ok");
     }

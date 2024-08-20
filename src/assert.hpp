@@ -32,10 +32,11 @@ auto return_error() -> auto {
         line_warn(__VA_ARGS__);                                                   \
         constexpr auto fn      = std::source_location::current().function_name(); \
         constexpr auto str     = std::string_view(fn);                            \
-        constexpr auto is_void = str.starts_with("void ") && str[5] != '*';       \
-        constexpr auto is_bool = str.starts_with("bool ") && str[5] != '*';       \
-        constexpr auto is_int  = str.starts_with("int ") && str[4] != '*';        \
-        constexpr auto is_opt  = str.starts_with("std::optional<");               \
+        constexpr auto type    = str.substr(str.starts_with("static ") ? 7 : 0);  \
+        constexpr auto is_void = type.starts_with("void ") && str[5] != '*';      \
+        constexpr auto is_bool = type.starts_with("bool ") && str[5] != '*';      \
+        constexpr auto is_int  = type.starts_with("int ") && str[4] != '*';       \
+        constexpr auto is_opt  = type.starts_with("std::optional<");              \
         constexpr auto is_ptr  = true; /* TODO: handle template return type */    \
         return return_error<is_void, is_bool, is_int, is_opt, is_ptr>();          \
     }
