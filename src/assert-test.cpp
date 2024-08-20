@@ -67,7 +67,7 @@ auto main() -> int {
     if(s.fail_p() != nullptr) return 1;
 
     print("pass");
-    critical_assert(false);
+    line_assert(false);
     line_panic();
     return 0;
 }
