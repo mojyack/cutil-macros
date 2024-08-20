@@ -1,46 +1,18 @@
 #pragma once
-#include "util/assert.hpp"
+#include "assert.hpp"
 
-#define unwrap_rv(var, opt, const, ...) \
-    const auto var##_r = opt;           \
-    if(!var##_r) {                      \
-        return var##_r.as_error();      \
-    }                                   \
-    const auto& var = var##_r.as_value();
-
-#define unwrap_re(var, opt, ...)     unwrap_rv(var, opt, const, __VA_ARGS__)
-#define unwrap_re_mut(var, opt, ...) unwrap_rv(var, opt, , __VA_ARGS__)
-
-#define unwrap_ov(var, opt, const, ret, ...) \
+#define generic_unwrap(const, var, opt, ...) \
     const auto var##_o = opt;                \
-    if(!var##_o.has_value()) {               \
-        line_warn(__VA_ARGS__);              \
-        return ret;                          \
-    }                                        \
+    assert(var##_o, __VA_ARGS__);            \
     const auto& var = *var##_o;
 
-#define unwrap_ob(var, opt, ...)     unwrap_ov(var, opt, const, false, __VA_ARGS__)
-#define unwrap_ob_mut(var, opt, ...) unwrap_ov(var, opt, , false, __VA_ARGS__)
-#define unwrap_oo(var, opt, ...)     unwrap_ov(var, opt, const, std::nullopt, __VA_ARGS__)
-#define unwrap_oo_mut(var, opt, ...) unwrap_ov(var, opt, , std::nullopt, __VA_ARGS__)
-#define unwrap_op(var, opt, ...)     unwrap_ov(var, opt, const, nullptr, __VA_ARGS__)
-#define unwrap_op_mut(var, opt, ...) unwrap_ov(var, opt, , nullptr, __VA_ARGS__)
-#define unwrap_on(var, opt, ...)     unwrap_ov(var, opt, const, , __VA_ARGS__)
-#define unwrap_on_mut(var, opt, ...) unwrap_ov(var, opt, , , __VA_ARGS__)
+#define unwrap(var, opt, ...)     generic_unwrap(const, var, opt, __VA_ARGS__)
+#define unwrap_mut(var, opt, ...) generic_unwrap(/*const*/, var, opt, __VA_ARGS__)
 
-#define unwrap_pv(var, opt, const, ret, ...) \
-    const auto var##_p = opt;                \
-    if(var##_p == nullptr) {                 \
-        line_warn(__VA_ARGS__);              \
-        return ret;                          \
-    }                                        \
-    const auto& var = *var##_p;
+#define generic_unwrap_v(const, var, opt, ...) \
+    const auto var##_o = opt;                  \
+    assert_v(var##_o, __VA_ARGS__);            \
+    const auto& var = *var##_o;
 
-#define unwrap_pb(var, opt, ...)     unwrap_pv(var, opt, const, false, __VA_ARGS__)
-#define unwrap_pb_mut(var, opt, ...) unwrap_pv(var, opt, , false, __VA_ARGS__)
-#define unwrap_po(var, opt, ...)     unwrap_pv(var, opt, const, std::nullopt, __VA_ARGS__)
-#define unwrap_po_mut(var, opt, ...) unwrap_pv(var, opt, , std::nullopt, __VA_ARGS__)
-#define unwrap_pp(var, opt, ...)     unwrap_pv(var, opt, const, nullptr, __VA_ARGS__)
-#define unwrap_pp_mut(var, opt, ...) unwrap_pv(var, opt, , nullptr, __VA_ARGS__)
-#define unwrap_pn(var, opt, ...)     unwrap_pv(var, opt, const, , __VA_ARGS__)
-#define unwrap_pn_mut(var, opt, ...) unwrap_pv(var, opt, , , __VA_ARGS__)
+#define unwrap_v(var, opt, ...)     generic_unwrap_v(const, var, opt, __VA_ARGS__)
+#define unwrap_v_mut(var, opt, ...) generic_unwrap_v(/*const*/, var, opt, __VA_ARGS__)
