@@ -31,7 +31,7 @@ struct S {
         ensure(false, "ok");
     }
 
-    auto fail_o() -> std::optional<int> {
+    virtual auto fail_o() -> std::optional<int> {
         unwrap(a, (int*)nullptr);
         ensure(false, "ok");
     }
