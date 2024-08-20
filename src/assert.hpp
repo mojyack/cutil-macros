@@ -8,19 +8,14 @@
 template <bool is_void, bool is_bool, bool is_int, bool is_opt, bool is_ptr>
 auto return_error() -> auto {
     if constexpr(is_void) {
-        print("void");
         return;
     } else if constexpr(is_bool) {
-        print("bool");
         return false;
     } else if constexpr(is_int) {
-        print("int");
         return -1;
     } else if constexpr(is_opt) {
-        print("opt");
         return std::nullopt;
     } else if constexpr(is_ptr) {
-        print("ptr");
         return nullptr;
     } else {
         static_assert(false);
