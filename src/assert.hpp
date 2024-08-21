@@ -41,11 +41,24 @@ auto return_error() -> auto {
         bail("assertion failed" __VA_OPT__(": ", ) __VA_ARGS__); \
     }
 
+struct VoidErrorType {};
+
+template <class T>
+consteval auto return_error_v(T error_value) -> auto {
+    if constexpr(std::is_same_v<decltype(error_value), VoidErrorType>) {
+        return;
+    } else {
+        return error_value;
+    }
+}
+
+constexpr auto error_value = VoidErrorType{};
+
 // constexpr auto error_value = (-1, std::nullopt, nullptr, ...)
-#define bail_v(...)             \
-    {                           \
-        line_warn(__VA_ARGS__); \
-        return error_value;     \
+#define bail_v(...)                         \
+    {                                       \
+        line_warn(__VA_ARGS__);             \
+        return return_error_v(error_value); \
     }
 
 #define ensure_v(cond, ...)                                        \
