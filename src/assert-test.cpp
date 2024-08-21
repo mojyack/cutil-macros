@@ -1,3 +1,5 @@
+#include <optional>
+
 #include "unwrap.hpp"
 
 auto fail_n() -> void {
