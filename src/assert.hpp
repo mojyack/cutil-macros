@@ -1,3 +1,4 @@
+#include <optional>
 #include <source_location>
 
 #pragma once
