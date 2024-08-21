@@ -1,7 +1,7 @@
+#pragma once
 #include <optional>
 #include <source_location>
 
-#pragma once
 #ifndef CUTIL_MACROS_NO_AUTO_INCLUDE
 #include "util/assert.hpp"
 #endif
