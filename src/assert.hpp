@@ -66,3 +66,14 @@ constexpr auto error_value = VoidErrorType{};
     if(!(cond)) {                                                  \
         bail_v("assertion failed" __VA_OPT__(": ", ) __VA_ARGS__); \
     }
+
+#define co_bail_v(...)                         \
+    {                                          \
+        line_warn(__VA_ARGS__);                \
+        co_return return_error_v(error_value); \
+    }
+
+#define co_ensure_v(cond, ...)                                        \
+    if(!(cond)) {                                                     \
+        co_bail_v("assertion failed" __VA_OPT__(": ", ) __VA_ARGS__); \
+    }
