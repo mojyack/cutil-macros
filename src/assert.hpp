@@ -6,6 +6,10 @@
 #include "util/assert.hpp"
 #endif
 
+#ifndef CUTIL_MACROS_PRINT_FUNC
+#define CUTIL_MACROS_PRINT_FUNC line_warn
+#endif
+
 template <bool is_void, bool is_bool, bool is_int, bool is_opt, bool is_ptr>
 auto return_error() -> auto {
     if constexpr(is_void) {
@@ -25,7 +29,7 @@ auto return_error() -> auto {
 
 #define bail(...)                                                                                              \
     {                                                                                                          \
-        line_warn(__VA_ARGS__);                                                                                \
+        CUTIL_MACROS_PRINT_FUNC(__VA_ARGS__);                                                                  \
         constexpr auto fn      = std::source_location::current().function_name();                              \
         constexpr auto str     = std::string_view(fn);                                                         \
         constexpr auto type    = str.substr(str.starts_with("static ") * 7 + str.starts_with("virtual ") * 8); \
@@ -56,10 +60,10 @@ consteval auto return_error_v(T error_value) -> auto {
 constexpr auto error_value = VoidErrorType{};
 
 // constexpr auto error_value = (-1, std::nullopt, nullptr, ...)
-#define bail_v(...)                         \
-    {                                       \
-        line_warn(__VA_ARGS__);             \
-        return return_error_v(error_value); \
+#define bail_v(...)                           \
+    {                                         \
+        CUTIL_MACROS_PRINT_FUNC(__VA_ARGS__); \
+        return return_error_v(error_value);   \
     }
 
 #define ensure_v(cond, ...)                                        \
@@ -69,7 +73,7 @@ constexpr auto error_value = VoidErrorType{};
 
 #define co_bail_v(...)                         \
     {                                          \
-        line_warn(__VA_ARGS__);                \
+        CUTIL_MACROS_PRINT_FUNC(__VA_ARGS__);  \
         co_return return_error_v(error_value); \
     }
 
