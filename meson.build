@@ -2,3 +2,5 @@ project('cutil-macros', 'cpp', version : '0.0', default_options : ['warning_leve
 add_project_arguments('-Wfatal-errors', language: 'cpp')
 
 executable('assert-test', files('src/assert-test.cpp'))
+executable('print-test', files('src/print-test.cpp'))
+executable('logger-test', files('src/logger-test.cpp'))
