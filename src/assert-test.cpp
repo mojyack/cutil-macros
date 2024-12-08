@@ -1,6 +1,7 @@
 #include <optional>
 
 #include "unwrap.hpp"
+#include "util/print.hpp"
 
 auto fail_n() -> void {
     unwrap(a, (int*)nullptr);
@@ -69,7 +70,7 @@ auto main() -> int {
     if(s.fail_p() != nullptr) return 1;
 
     print("pass");
-    line_assert(false);
-    line_panic();
+    ASSERT(false);
+    PANIC();
     return 0;
 }
