@@ -21,36 +21,36 @@
         PANIC(__VA_ARGS__); \
     }
 
-template <bool is_void, bool is_bool, bool is_int, bool is_opt, bool is_ptr>
-auto return_error() -> auto {
-    if constexpr(is_void) {
+template <comptime::String func>
+constexpr auto detect_error_value() -> auto {
+    constexpr auto str00 = func;
+    constexpr auto str10 = comptime::remove_prefix<str00, comptime::String("static ")>;
+    constexpr auto str20 = comptime::remove_prefix<str10, comptime::String("virtual ")>;
+    constexpr auto space = comptime::find<str20, comptime::String(" ")>;
+    if constexpr(space == std::string_view::npos) {
         return;
-    } else if constexpr(is_bool) {
-        return false;
-    } else if constexpr(is_int) {
-        return -1;
-    } else if constexpr(is_opt) {
-        return std::nullopt;
-    } else if constexpr(is_ptr) {
-        return nullptr;
     } else {
-        static_assert(false);
+        constexpr auto ret  = comptime::substr<str20, 0, space>;
+        constexpr auto name = comptime::substr<str20, space + 1>;
+        if constexpr(ret[-1] == '*' || name[0] == '*') {
+            return nullptr;
+        } else if constexpr(ret.str() == "void") {
+            return;
+        } else if constexpr(ret.str() == "bool") {
+            return false;
+        } else if constexpr(ret.str() == "int") {
+            return -1;
+        } else if constexpr(comptime::starts_with<ret, comptime::String("std::optional<")>) {
+            return std::nullopt;
+        } else {
+            return;
+        }
     }
 }
 
-#define bail(...)                                                                                              \
-    {                                                                                                          \
-        CUTIL_MACROS_PRINT_FUNC(__VA_ARGS__);                                                                  \
-        constexpr auto fn      = std::source_location::current().function_name();                              \
-        constexpr auto str     = std::string_view(fn);                                                         \
-        constexpr auto type    = str.substr(str.starts_with("static ") * 7 + str.starts_with("virtual ") * 8); \
-        constexpr auto is_void = type.starts_with("void ") && str[5] != '*';                                   \
-        constexpr auto is_bool = type.starts_with("bool ") && str[5] != '*';                                   \
-        constexpr auto is_int  = type.starts_with("int ") && str[4] != '*';                                    \
-        constexpr auto is_opt  = type.starts_with("std::optional<");                                           \
-        constexpr auto is_ptr  = true; /* TODO: handle template return type */                                 \
-        return return_error<is_void, is_bool, is_int, is_opt, is_ptr>();                                       \
-    }
+#define bail(...)                         \
+    CUTIL_MACROS_PRINT_FUNC(__VA_ARGS__); \
+    return detect_error_value<CUTIL_COMPSTR(std::source_location::current().function_name())>();
 
 #define ensure(cond, ...)                                        \
     if(!(cond)) {                                                \
