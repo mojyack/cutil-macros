@@ -2,8 +2,8 @@
 
 #include "print.hpp"
 
-#define MARKER(name)                           \
-    printf("(raw %s)\n", __PRETTY_FUNCTION__); \
+#define MARKER(name)                                    \
+    fprintf(stderr, "(raw %s)\n", __PRETTY_FUNCTION__); \
     PRINT(name);
 
 auto f() -> void {
