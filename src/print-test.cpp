@@ -25,6 +25,11 @@ auto p() -> int** {
     return nullptr;
 }
 
+auto cp() -> const int* const* {
+    PRINT("const pointer return type");
+    return nullptr;
+}
+
 struct S {
     static auto s() -> void {
         PRINT("struct static");
@@ -86,6 +91,7 @@ auto main() -> int {
     t<int, std::basic_string<char>>();
     s();
     p();
+    cp();
     {
         auto s = S();
         s.f();
