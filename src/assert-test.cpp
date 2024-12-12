@@ -28,6 +28,11 @@ auto fail_p() -> int* {
     ensure(false, "ok");
 }
 
+auto fail_cp() -> const int* {
+    unwrap(a, (int*)nullptr);
+    ensure(false, "ok");
+}
+
 struct S {
     static auto fail_n() -> void {
         unwrap(a, (int*)nullptr);
@@ -61,6 +66,7 @@ auto main() -> int {
     if(fail_b() != false) return 1;
     if(fail_i() != -1) return 1;
     if(fail_p() != nullptr) return 1;
+    if(fail_cp() != nullptr) return 1;
 
     auto s = S();
     s.fail_n();

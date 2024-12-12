@@ -23,15 +23,16 @@
 
 template <comptime::String func>
 constexpr auto detect_error_value() -> auto {
-    constexpr auto str00 = func;
-    constexpr auto str10 = comptime::remove_prefix<str00, comptime::String("static ")>;
-    constexpr auto str20 = comptime::remove_prefix<str10, comptime::String("virtual ")>;
-    constexpr auto space = comptime::find<str20, comptime::String(" ")>;
+    constexpr auto str000 = func;
+    constexpr auto str010 = comptime::remove_prefix<str000, comptime::String("static ")>;
+    constexpr auto str020 = comptime::remove_prefix<str010, comptime::String("virtual ")>;
+    constexpr auto str030 = comptime::remove_prefix<str020, comptime::String("const ")>;
+    constexpr auto space  = comptime::find<str030, comptime::String(" ")>;
     if constexpr(space == std::string_view::npos) {
         return;
     } else {
-        constexpr auto ret  = comptime::substr<str20, 0, space>;
-        constexpr auto name = comptime::substr<str20, space + 1>;
+        constexpr auto ret  = comptime::substr<str030, 0, space>;
+        constexpr auto name = comptime::substr<str030, space + 1>;
         if constexpr(ret[-1] == '*' || name[0] == '*') {
             return nullptr;
         } else if constexpr(ret.str() == "void") {
