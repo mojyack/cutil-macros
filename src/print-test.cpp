@@ -2,85 +2,95 @@
 
 #include "print.hpp"
 
+#define MARKER(name)                           \
+    printf("(raw %s)\n", __PRETTY_FUNCTION__); \
+    PRINT(name);
+
 auto f() -> void {
-    PRINT("func");
+    MARKER("func");
 }
 
 auto a(int) -> void {
-    PRINT("func with args");
+    MARKER("func with args");
 }
 
 template <class T, class U>
 auto t() -> void {
-    PRINT("template func");
+    MARKER("template func");
 }
 
 auto s() -> std::optional<std::optional<const int>> {
-    PRINT("space in return type");
+    MARKER("space in return type");
     return {};
 }
 
 auto p() -> int** {
-    PRINT("pointer return type");
+    MARKER("pointer return type");
     return nullptr;
 }
 
 auto cp() -> const int* const* {
-    PRINT("const pointer return type");
+    MARKER("const pointer return type");
     return nullptr;
 }
 
 struct S {
     static auto s() -> void {
-        PRINT("struct static");
+        MARKER("struct static");
     }
 
     auto f() -> void {
-        PRINT("struct method");
+        MARKER("struct method");
     }
 
     auto c() const -> void {
-        PRINT("struct const");
+        MARKER("struct const");
+    }
+
+    auto c2(std::optional<std::string>) -> void {
+        [&](int) {
+            MARKER("lambda");
+        }(0);
     }
 
     virtual auto v() -> void {
-        PRINT("struct virtual");
+        MARKER("struct virtual");
     }
 
     template <class T, class U>
     auto t(int) const -> void {
-        PRINT("struct template method");
+        MARKER("struct template method");
     }
 
     S() {
-        PRINT("struct constructor");
+        MARKER("struct constructor");
     }
 
     ~S() {
-        PRINT("struct destructor");
+        MARKER("struct destructor");
     }
 };
 
 namespace ns {
 auto f() -> void {
-    PRINT("namespace");
+    MARKER("namespace");
 }
 
 namespace ns2 {
 auto f() -> void {
-    PRINT("nested namespace");
+    MARKER("nested namespace");
 }
 
 namespace ns3 {
 auto f() -> void {
-    PRINT("nested namespace");
+    MARKER("nested namespace");
 }
 } // namespace ns3
 } // namespace ns2
 
 namespace {
 auto f2() -> void {
-    PRINT("anonymous namespace");
+    MARKER("anonymous namespace");
 }
 } // namespace
 } // namespace ns
@@ -97,6 +107,7 @@ auto main() -> int {
         s.f();
         s.s();
         s.c();
+        s.c2({});
         s.v();
         s.t<int, char>(0);
     }
@@ -105,7 +116,7 @@ auto main() -> int {
     ns::ns2::ns3::f();
     ns::f2();
     auto l = [&](int) {
-        PRINT("lambda");
+        MARKER("lambda");
     };
     l(0);
     return 0;
