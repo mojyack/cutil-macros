@@ -28,6 +28,16 @@ auto fail_p() -> int* {
     ensure(false, "ok");
 }
 
+auto fail_up() -> std::unique_ptr<int> {
+    unwrap(a, (int*)nullptr);
+    ensure(false, "ok");
+}
+
+auto fail_sp() -> std::shared_ptr<int> {
+    unwrap(a, (int*)nullptr);
+    ensure(false, "ok");
+}
+
 auto fail_cp() -> const int* {
     unwrap(a, (int*)nullptr);
     ensure(false, "ok");
@@ -66,6 +76,8 @@ auto main() -> int {
     if(fail_b() != false) return 1;
     if(fail_i() != -1) return 1;
     if(fail_p() != nullptr) return 1;
+    if(fail_up() != nullptr) return 1;
+    if(fail_sp() != nullptr) return 1;
     if(fail_cp() != nullptr) return 1;
 
     auto s = S();
