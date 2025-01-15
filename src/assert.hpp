@@ -24,10 +24,10 @@
 template <comptime::String func>
 constexpr auto detect_error_value() -> auto {
     constexpr auto str000 = func;
-    constexpr auto str010 = comptime::remove_prefix<str000, comptime::String("static ")>;
-    constexpr auto str020 = comptime::remove_prefix<str010, comptime::String("virtual ")>;
-    constexpr auto str030 = comptime::remove_prefix<str020, comptime::String("const ")>;
-    constexpr auto space  = comptime::find<str030, comptime::String(" ")>;
+    constexpr auto str010 = comptime::remove_prefix<str000, "static ">;
+    constexpr auto str020 = comptime::remove_prefix<str010, "virtual ">;
+    constexpr auto str030 = comptime::remove_prefix<str020, "const ">;
+    constexpr auto space  = comptime::find<str030, " ">;
     if constexpr(space == std::string_view::npos) {
         return;
     } else {
@@ -41,7 +41,7 @@ constexpr auto detect_error_value() -> auto {
             return false;
         } else if constexpr(ret.str() == "int") {
             return -1;
-        } else if constexpr(comptime::starts_with<ret, comptime::String("std::optional<")>) {
+        } else if constexpr(comptime::starts_with<ret, "std::optional<">) {
             return std::nullopt;
         } else {
             return;
