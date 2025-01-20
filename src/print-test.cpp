@@ -2,8 +2,8 @@
 
 #include "print.hpp"
 
-#define MARKER(name)                                    \
-    fprintf(stderr, "(raw %s)\n", __PRETTY_FUNCTION__); \
+#define MARKER(name)                                       \
+    std::println(stderr, "(raw {})", __PRETTY_FUNCTION__); \
     PRINT(name);
 
 auto f() -> void {
