@@ -12,8 +12,8 @@
 #define CUTIL_MACROS_PRINT_FUNC WARN
 #endif
 
-#define PANIC(...)                                                           \
-    CUTIL_MACROS_PRINT_FUNC("fatal error" __VA_OPT__(, ": ", ) __VA_ARGS__); \
+#define PANIC(...)                                                       \
+    CUTIL_MACROS_PRINT_FUNC("fatal error" __VA_OPT__(": ") __VA_ARGS__); \
     panic("");
 
 #define ASSERT(cond, ...)   \
@@ -56,9 +56,9 @@ constexpr auto detect_error_value() -> auto {
     CUTIL_MACROS_PRINT_FUNC(__VA_ARGS__); \
     return detect_error_value<CUTIL_COMPSTR(std::source_location::current().function_name())>();
 
-#define ensure(cond, ...)                                        \
-    if(!(cond)) {                                                \
-        bail("assertion failed" __VA_OPT__(": ", ) __VA_ARGS__); \
+#define ensure(cond, ...)                                      \
+    if(!(cond)) {                                              \
+        bail("assertion failed" __VA_OPT__(": ") __VA_ARGS__); \
     }
 
 struct VoidErrorType {};
@@ -81,9 +81,9 @@ constexpr auto error_value = VoidErrorType{};
         return return_error_v(error_value);   \
     }
 
-#define ensure_v(cond, ...)                                        \
-    if(!(cond)) {                                                  \
-        bail_v("assertion failed" __VA_OPT__(": ", ) __VA_ARGS__); \
+#define ensure_v(cond, ...)                                      \
+    if(!(cond)) {                                                \
+        bail_v("assertion failed" __VA_OPT__(": ") __VA_ARGS__); \
     }
 
 #define co_bail_v(...)                         \
@@ -92,7 +92,7 @@ constexpr auto error_value = VoidErrorType{};
         co_return return_error_v(error_value); \
     }
 
-#define co_ensure_v(cond, ...)                                        \
-    if(!(cond)) {                                                     \
-        co_bail_v("assertion failed" __VA_OPT__(": ", ) __VA_ARGS__); \
+#define co_ensure_v(cond, ...)                                      \
+    if(!(cond)) {                                                   \
+        co_bail_v("assertion failed" __VA_OPT__(": ") __VA_ARGS__); \
     }
