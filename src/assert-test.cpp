@@ -5,67 +5,80 @@
 auto fail_n() -> void {
     unwrap(a, (int*)nullptr);
     ensure(false, "ok");
+    (void)a;
 }
 
 auto fail_o() -> std::optional<int> {
     unwrap(a, (int*)nullptr);
     ensure(false, "ok");
+    (void)a;
 }
 
 auto fail_b() -> bool {
     unwrap(a, (int*)nullptr);
     ensure(false, "ok");
+    (void)a;
 }
 
 auto fail_i() -> int {
     unwrap(a, (int*)nullptr);
     ensure(false, "ok");
+    (void)a;
 }
 
 auto fail_p() -> int* {
     unwrap(a, (int*)nullptr);
     ensure(false, "ok");
+    (void)a;
 }
 
 auto fail_up() -> std::unique_ptr<int> {
     unwrap(a, (int*)nullptr);
     ensure(false, "ok");
+    (void)a;
 }
 
 auto fail_sp() -> std::shared_ptr<int> {
     unwrap(a, (int*)nullptr);
     ensure(false, "ok");
+    (void)a;
 }
 
 auto fail_cp() -> const int* {
     unwrap(a, (int*)nullptr);
     ensure(false, "ok");
+    (void)a;
 }
 
 struct S {
     static auto fail_n() -> void {
         unwrap(a, (int*)nullptr);
         ensure(false, "ok");
+        (void)a;
     }
 
     virtual auto fail_o() -> std::optional<int> {
         unwrap(a, (int*)nullptr);
         ensure(false, "ok");
+        (void)a;
     }
 
     auto fail_b() -> bool {
         unwrap(a, (int*)nullptr);
         ensure(false, "ok");
+        (void)a;
     }
 
     auto fail_i() -> int {
         unwrap(a, (int*)nullptr);
         ensure(false, "ok");
+        (void)a;
     }
 
     auto fail_p() -> int* {
         unwrap(a, (int*)nullptr);
         ensure(false, "ok");
+        (void)a;
     }
 };
 
