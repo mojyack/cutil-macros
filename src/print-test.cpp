@@ -119,5 +119,7 @@ auto main() -> int {
         MARKER("lambda");
     };
     l(0);
+    auto var = 0;
+    PRINT("pointer {}", &var);
     return 0;
 }
