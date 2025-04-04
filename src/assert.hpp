@@ -21,6 +21,24 @@
         PANIC(__VA_ARGS__); \
     }
 
+template <comptime::String str>
+constexpr auto type_string_to_type() -> auto {
+    if constexpr(comptime::starts_with<str, "std::unique_ptr<"> ||
+                 comptime::starts_with<str, "std::shared_ptr<">) {
+        return nullptr;
+    } else if constexpr(str.str() == "void") {
+        return;
+    } else if constexpr(str.str() == "bool") {
+        return false;
+    } else if constexpr(str.str() == "int") {
+        return -1;
+    } else if constexpr(comptime::starts_with<str, "std::optional<">) {
+        return std::nullopt;
+    } else {
+        return;
+    }
+}
+
 template <comptime::String func>
 constexpr auto detect_error_value() -> auto {
     constexpr auto str000 = func;
@@ -35,19 +53,8 @@ constexpr auto detect_error_value() -> auto {
         constexpr auto name = comptime::substr<str030, space + 1>;
         if constexpr(ret[-1] == '*' || name[0] == '*') {
             return nullptr;
-        } else if constexpr(comptime::starts_with<ret, "std::unique_ptr<"> ||
-                            comptime::starts_with<ret, "std::shared_ptr<">) {
-            return nullptr;
-        } else if constexpr(ret.str() == "void") {
-            return;
-        } else if constexpr(ret.str() == "bool") {
-            return false;
-        } else if constexpr(ret.str() == "int") {
-            return -1;
-        } else if constexpr(comptime::starts_with<ret, "std::optional<">) {
-            return std::nullopt;
         } else {
-            return;
+            return type_string_to_type<ret>();
         }
     }
 }
