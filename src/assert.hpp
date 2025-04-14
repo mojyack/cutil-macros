@@ -79,12 +79,12 @@ constexpr auto detect_error_value() -> auto {
 struct VoidErrorType {};
 
 template <class T>
-consteval auto return_error_v(T error_value) -> auto {
-    if constexpr(std::is_same_v<decltype(error_value), VoidErrorType>) {
-        return;
-    } else {
-        return error_value;
-    }
+constexpr auto return_error_v(T error_value) -> T {
+    return error_value;
+}
+
+constexpr auto return_error_v(VoidErrorType) -> void {
+    return;
 }
 
 constexpr auto error_value = VoidErrorType{};
