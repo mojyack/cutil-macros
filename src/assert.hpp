@@ -3,10 +3,7 @@
 #include <source_location>
 
 #include "print.hpp"
-
-#ifndef CUTIL_MACROS_NO_AUTO_INCLUDE
 #include "util/assert.hpp"
-#endif
 
 #ifndef CUTIL_MACROS_PRINT_FUNC
 #define CUTIL_MACROS_PRINT_FUNC WARN

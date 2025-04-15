@@ -1,9 +1,6 @@
 #pragma once
 #include "print.hpp"
-
-#ifndef CUTIL_MACROS_NO_AUTO_INCLUDE
 #include "util/logger.hpp"
-#endif
 
 #define CUTIL_GENERIC_LOG_PRINT(level, logger, ...)                 \
     {                                                               \

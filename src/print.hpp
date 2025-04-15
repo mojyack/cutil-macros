@@ -1,10 +1,8 @@
 #pragma once
 #include <source_location>
 
-#ifndef CUTIL_MACROS_NO_AUTO_INCLUDE
 #include "util/location-print.hpp"
 #include "util/pointer-format.hpp"
-#endif
 
 #define CUTIL_COMPSTR(cstr) comptime::String<std::string_view(cstr).size()>(std::string_view(cstr))
 #define CUTIL_GENERIC_PRINT(err, ...)                             \
