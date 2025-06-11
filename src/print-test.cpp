@@ -72,6 +72,13 @@ struct S {
     }
 };
 
+template<class T>
+struct TS {
+    auto func(T) -> void {
+        MARKER("template struct");
+    }
+};
+
 namespace ns {
 auto f() -> void {
     MARKER("namespace");
@@ -111,6 +118,12 @@ auto main() -> int {
         s.c2({});
         s.v();
         s.t<int, char>(0);
+    }
+    {
+        auto ts1 = TS<int>();
+        ts1.func(0);
+        auto ts2 = TS<std::optional<int>>();
+        ts2.func(0);
     }
     ns::f();
     ns::ns2::f();
