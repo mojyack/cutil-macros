@@ -24,8 +24,7 @@
 
 template <comptime::String str>
 constexpr auto type_string_to_type() -> auto {
-    if constexpr(comptime::starts_with<str, "std::unique_ptr<"> ||
-                 comptime::starts_with<str, "std::shared_ptr<">) {
+    if constexpr(str.str() == "std::unique_ptr" || str.str() == "std::shared_ptr") {
         return nullptr;
     } else if constexpr(str.str() == "void") {
         return;
@@ -33,7 +32,7 @@ constexpr auto type_string_to_type() -> auto {
         return false;
     } else if constexpr(str.str() == "int") {
         return -1;
-    } else if constexpr(comptime::starts_with<str, "std::optional<">) {
+    } else if constexpr(str.str() == "std::optional") {
         return std::nullopt;
     } else {
         return;
@@ -46,12 +45,13 @@ constexpr auto detect_error_value() -> auto {
     constexpr auto str010 = comptime::remove_prefix<str000, "static ">;
     constexpr auto str020 = comptime::remove_prefix<str010, "virtual ">;
     constexpr auto str030 = comptime::remove_prefix<str020, "const ">;
-    constexpr auto space  = comptime::find<str030, " ">;
+    constexpr auto str040 = comptime::remove_region<str030, '<', '>'>;
+    constexpr auto space  = comptime::find<str040, " ">;
     if constexpr(space == std::string_view::npos) {
         return;
     } else {
-        constexpr auto ret  = comptime::substr<str030, 0, space>;
-        constexpr auto name = comptime::substr<str030, space + 1>;
+        constexpr auto ret  = comptime::substr<str040, 0, space>;
+        constexpr auto name = comptime::substr<str040, space + 1>;
         if constexpr(ret[-1] == '*' || name[0] == '*') {
             return nullptr;
         } else {

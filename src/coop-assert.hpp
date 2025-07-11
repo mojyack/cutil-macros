@@ -14,15 +14,15 @@ constexpr auto coop_detect_error_value() -> auto {
     if constexpr(open == std::string_view::npos) {
         return;
     } else {
-        constexpr auto close = comptime::find<str030, "> ", open + marker.size()>;
-        if constexpr(close == std::string_view::npos) {
+        constexpr auto region = comptime::find_region<str030, '<', '>'>;
+        if constexpr(region.first == std::string_view::npos) {
             return;
         } else {
-            constexpr auto ret = comptime::substr<str030, open + marker.size(), close - open - marker.size()>;
+            constexpr auto ret = comptime::substr<str030, region.first + 1, region.second - 2>;
             if constexpr(ret[-1] == '*') {
                 return nullptr;
             } else {
-                return type_string_to_type<ret>();
+                return type_string_to_type<comptime::remove_region<ret, '<', '>'>>();
             }
         }
     }

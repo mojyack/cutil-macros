@@ -13,6 +13,13 @@ auto fail_o() -> Ret(std::optional<int>) {
     (void)a;
 }
 
+auto fail_o2() -> Ret(std::optional<int*>) {
+    std::println("{}", std::source_location::current().function_name());
+    _unwrap(a, (int*)nullptr);
+    _ensure(false, "ok");
+    (void)a;
+}
+
 auto fail_b() -> Ret(bool) {
     _unwrap(a, (int*)nullptr);
     _ensure(false, "ok");
@@ -86,6 +93,7 @@ auto pass = false;
 auto test() -> Ret(void) {
     _await fail_n();
     if(_await fail_o() != std::nullopt) _return;
+    if(_await fail_o2() != std::nullopt) _return;
     if(_await fail_b() != false) _return;
     if(_await fail_i() != -1) _return;
     if(_await fail_p() != nullptr) _return;
