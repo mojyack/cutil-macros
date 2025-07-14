@@ -22,7 +22,10 @@ constexpr auto coop_detect_error_value() -> auto {
             if constexpr(ret[-1] == '*') {
                 return nullptr;
             } else {
-                return type_string_to_type<comptime::remove_region<ret, '<', '>'>>();
+                constexpr auto str000 = comptime::remove_region<ret, '<', '>'>;
+                // gcc adds weird ' ' after template parameters
+                constexpr auto str010 = comptime::remove_suffix<str000, " ">;
+                return type_string_to_type<str010>();
             }
         }
     }
