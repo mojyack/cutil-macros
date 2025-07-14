@@ -14,7 +14,6 @@ auto fail_o() -> Ret(std::optional<int>) {
 }
 
 auto fail_o2() -> Ret(std::optional<int*>) {
-    std::println("{}", std::source_location::current().function_name());
     _unwrap(a, (int*)nullptr);
     _ensure(false, "ok");
     (void)a;
